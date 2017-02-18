@@ -1,32 +1,44 @@
 package com.photobook.services;
 
+import com.photobook.data.CoverType;
 import com.photobook.data.Order;
+import com.photobook.data.OrderStatus;
+import com.photobook.data.PaperType;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by masya on 2/9/17.
  */
 public class OrderService {
 
+    private final Map<String, Order> ordersMap = new HashMap<>();
+
     public void addOrder(Order order) {
-        if (order.getUserId() <= 0) {
-            throw new IllegalArgumentException("User ID must be greater than zero");
+            final String newOrderId = UUID.randomUUID().toString();
+            Order newOrder = new Order (newOrderId, order.getUserId(), order.getDateCreated(),order.getDateModified(), order.getSize(),
+                    order.getCover(), order.getPaper(), order.getPages(), order.getPrice(), order.getStatus());
+
+        ordersMap.put(newOrderId, newOrder);
         }
-        //todo add order to internal storage and generate new order id
-    }
 
     public void modifyOrder (Order order){
 
     }
 
     public Order [] getOrders (int userId){
-        return new Order [0];
+        return ordersMap.values().toArray(new Order[ordersMap.values().size()]);
+
     }
 
     public Order getOrder (String id) {
-        return null;
+
+        return ordersMap.get(id);
     }
 
     public void deleteOrder (String id){
-
+        ordersMap.remove(id);
     }
 }

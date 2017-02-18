@@ -10,11 +10,6 @@ public class Application {
     public static void main(String[] args) {
 
 
-        OrderService os = new OrderService(7);
-
-
-        System.out.println(os.get6());
-
         //final User user = new User();
         //user.setId(123);
 
