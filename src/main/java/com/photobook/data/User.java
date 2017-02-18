@@ -1,10 +1,13 @@
 package com.photobook.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by masya on 2/7/17.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
 
@@ -69,6 +72,13 @@ public class User {
     @JsonProperty("paymentMethod")
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
+    }
+
+    @JsonIgnore
+    public User merge(final User userUpdate) {
+
+        final String updatedName = userUpdate.getName() == null ? this.name : userUpdate.name;
+        return new User(this.id, updatedName, updatedEmail, updatedPhone, updatedDeliveryAddress, updatedPostalCode, updatedPaymentMethod);
     }
 
 }

@@ -32,6 +32,25 @@ public class UserTest {
 
     }
 
+    @Test
+    public void userUpdateTest() throws Exception {
+        User user = new User (3, "aaa", "abc@utki.net", "91234567",
+                "punggol central blk ...", "820192", PaymentMethod.VISA);
+        final String updateStr = "{\"id\":3,\"email\":\"cbd@utki.net\",\"paymentMethod\":\"MASTER\"}";
+        ObjectMapper mapper = new ObjectMapper();
+        final User userUpdate = mapper.readValue(updateStr, User.class);
+
+        User resultUser = user.merge(userUpdate);
+
+        assertEquals(3, resultUser.getId());
+        assertEquals("aaa", resultUser.getName());
+        assertEquals("cbd@utki.net", resultUser.getEmail());
+        assertEquals("91234567", resultUser.getPhone());
+        assertEquals("punggol central blk ...", resultUser.getDeliveryAddress());
+        assertEquals("820192", resultUser.getPostalCode());
+        assertEquals(PaymentMethod.MASTER, resultUser.getPaymentMethod());
+    }
+
     @Test(expected = Exception.class)
     public void invalidIdThrows() throws Exception {
         User user = new User (-3, "aaa", "abc@utki.net", "91234567",
