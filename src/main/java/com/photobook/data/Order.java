@@ -94,6 +94,23 @@ public class Order {
     }
 
 
+    public Order merge(final Order orderUpdate) {
+
+        final Integer updatedUserId = orderUpdate.getUserId() <= 0 ? this.userId : orderUpdate.userId;
+        final String updatedDateCreated = orderUpdate.getDateCreated() == null ? this.dateCreated : orderUpdate.dateCreated;
+        final String updatedDateModified = orderUpdate.getDateModified() == null ? this.dateModified : orderUpdate.dateModified;
+        final String updatedSize = orderUpdate.getSize() == null ? this.size : orderUpdate.size;
+        final CoverType updatedCover = orderUpdate.getCover() == null ? this.cover : orderUpdate.cover;
+        final PaperType updatedPaper = orderUpdate.getPaper() == null ? this.paper : orderUpdate.paper;
+        final Integer updatedPages = orderUpdate.getPages() <= 0 ? this.pages : orderUpdate.pages;
+        final double updatedPrice = orderUpdate.getPrice() <= 0.0 ? this.price : orderUpdate.price;
+        final OrderStatus updatedStatus = orderUpdate.getStatus() == null ? this.status : orderUpdate.status;
+
+        return new Order(this.id, updatedUserId, updatedDateCreated, updatedDateModified, updatedSize, updatedCover,
+                updatedPaper, updatedPages, updatedPrice, updatedStatus);
+    }
+
+
 }
 
 

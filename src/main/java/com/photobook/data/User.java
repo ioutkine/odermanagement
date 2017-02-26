@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by masya on 2/7/17.
+ * Stores information about a user.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
@@ -25,11 +25,11 @@ public class User {
                 @JsonProperty("phone") String phone,
                 @JsonProperty("deliveryAddress") String deliveryAddress,
                 @JsonProperty("postalCode") String postalCode,
-                @JsonProperty("paymentMethod") PaymentMethod paymentMethod) throws Exception {
+                @JsonProperty("paymentMethod") PaymentMethod paymentMethod) /*throws Exception*/ {
         this.name = name;
-        if (id < 0) {
-            throw new Exception("id should be greater than zero");
-        }
+       // if (id < 0) {
+       //     throw new Exception("id should be greater than zero");
+        //}
         this.id = id;
 
         this.email = email;
@@ -78,6 +78,12 @@ public class User {
     public User merge(final User userUpdate) {
 
         final String updatedName = userUpdate.getName() == null ? this.name : userUpdate.name;
+        final String updatedEmail = userUpdate.getEmail() == null ? this.email : userUpdate.email;
+        final String updatedPhone = userUpdate.getPhone() == null ? this.phone : userUpdate.phone;
+        final String updatedDeliveryAddress = userUpdate.getDeliveryAddress() == null ? this.deliveryAddress : userUpdate.deliveryAddress;
+        final String updatedPostalCode = userUpdate.getPostalCode() == null ? this.postalCode : userUpdate.postalCode;
+        final PaymentMethod updatedPaymentMethod = userUpdate.getPaymentMethod() == null ? this.paymentMethod : userUpdate.paymentMethod;
+
         return new User(this.id, updatedName, updatedEmail, updatedPhone, updatedDeliveryAddress, updatedPostalCode, updatedPaymentMethod);
     }
 

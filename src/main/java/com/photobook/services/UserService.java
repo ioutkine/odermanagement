@@ -15,13 +15,26 @@ public class UserService {
     private int nextId = 0;
 
 
-    public void addUser(User user) throws Exception {
+    public void addUser(User user) throws UserServiceException {
         final int userId = nextId++;
+        if (user.getName() == null && user.getName().isEmpty()) {
+            throw new UserServiceException("User name should be provided");
+        }
+
         User newUser = new User(userId, user.getName(), user.getEmail(), user.getPhone(), user.getDeliveryAddress(), user.getPostalCode(),user.getPaymentMethod());
         usersMap.put(userId, newUser);
     }
 
-    public void modifyUser (User user) {
+    public void modifyUser (User userWithModifiedFields) throws UserServiceException {
+        final User existingUser = usersMap.get(userWithModifiedFields.getId());
+        //todo check if user exists
+        if (existingUser == null)
+        {
+            throw new UserServiceException("User with ID: " + userWithModifiedFields.getId() + " does not exist");
+        }
+
+        final User modifiedUser = existingUser.merge(userWithModifiedFields);
+        usersMap.put(existingUser.getId(), modifiedUser);
 
     }
 

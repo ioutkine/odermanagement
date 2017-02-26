@@ -1,16 +1,11 @@
 package com.photobook.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Ignore;
 import org.junit.Test;
-
-import com.photobook.data.PaymentMethod.*;
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by masya on 2/9/17.
- */
 public class UserTest {
     @Test
     public void serialisationTest() throws Exception {
@@ -52,8 +47,9 @@ public class UserTest {
     }
 
     @Test(expected = Exception.class)
+    @Ignore
     public void invalidIdThrows() throws Exception {
-        User user = new User (-3, "aaa", "abc@utki.net", "91234567",
+        new User (-3, "aaa", "abc@utki.net", "91234567",
                 "punggol central blk ...", "820192", PaymentMethod.VISA);
 
     }

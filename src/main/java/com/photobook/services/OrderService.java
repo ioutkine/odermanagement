@@ -24,8 +24,11 @@ public class OrderService {
         ordersMap.put(newOrderId, newOrder);
         }
 
-    public void modifyOrder (Order order){
-
+    public void modifyOrder (Order orderWithModifiedFields)
+    {
+        final Order existingOrder = ordersMap.get(orderWithModifiedFields.getId());
+        final Order modifiedOrder = existingOrder.merge(orderWithModifiedFields);
+        ordersMap.put(existingOrder.getId(), modifiedOrder);
     }
 
     public Order [] getOrders (int userId){
