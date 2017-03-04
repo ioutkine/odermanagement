@@ -22,47 +22,24 @@ public class UserServiceServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet( HttpServletRequest request,
-                          HttpServletResponse response ) throws ServletException, IOException
+    protected void doGet(HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        // parse query string
-        //todo consider moving the code to a separate method
-        final String queryString = request.getQueryString();
-        final String[] queryVariables = queryString.split("&");
-        String userIdString = null;
-
-        for (String variable : queryVariables) {
-            final String[] parsedVariable = variable.split("=");
-            if (parsedVariable.length != 2) {
-                break;
+        final String pathInfo = request.getPathInfo();
+        if (pathInfo == null || pathInfo.equals("/")) {
+            //todo implement getAllUsers logic
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Not implemented.");
+        } else {
+            final int userId = Integer.parseInt(pathInfo.substring(1));
+            final User requestedUser = userService.getUser(userId);
+            if (requestedUser == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "User with ID " + userId + " is not found in the system.");
+            } else {
+                // set proper response header and response status
+                response.setContentType(APPLICATION_JSON.asString());
+                response.setStatus(HttpServletResponse.SC_OK);
+                mapper.writeValue(response.getOutputStream(), requestedUser);
             }
-            if (parsedVariable[0].equals("userId")) {
-                userIdString = parsedVariable[1];
-                break;
-            }
         }
-
-        // check if user id is present in the request and return error if not
-        if (userIdString == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "userId is not specified in the request.");
-            response.flushBuffer();
-            return;
-        }
-
-        int userId = Integer.parseInt(userIdString);
-        final User requestedUser = userService.getUser(userId);
-        if (requestedUser == null) {
-            //todo check with the specification what error code you should return if user is not found
-            response.sendError(HttpServletResponse.SC_NO_CONTENT, "User with ID " + userIdString + " is not found in the system.");
-            response.flushBuffer();
-            return;
-        }
-
-        // set proper response header and response status
-        response.setContentType(APPLICATION_JSON.asString());
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        mapper.writeValue(response.getOutputStream(), requestedUser);
         response.flushBuffer();
     }
 }

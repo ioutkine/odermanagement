@@ -13,14 +13,9 @@ public class Application {
         final UserService userService = new UserService();
         final UserServiceServlet userServiceServlet = new UserServiceServlet(userService);
         final SimpleServer webServer = new SimpleServer(8080);
-        webServer.registerServlet(userServiceServlet, "/user/*");
+        webServer.registerServlet(userServiceServlet, "/users/*");
 
         webServer.start();
-
-
-        //final String userString = mapper.writeValue(user, User.class);
-        // webServer.writeString(user);
-        final String s = "{\"id\":\"123\"}";
 
     }
 }
