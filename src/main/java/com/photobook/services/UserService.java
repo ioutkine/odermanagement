@@ -41,6 +41,7 @@ public class UserService {
     public User [] getUsers (){
         return usersMap.values().toArray(new User[usersMap.values().size()]);
     }
+
     public User getUser (int id) {
         return usersMap.get(id);
     }

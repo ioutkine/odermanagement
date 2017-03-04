@@ -1,29 +1,26 @@
 package com.photobook;
 
-import com.photobook.data.User;
-import com.photobook.services.OrderService;
+import com.photobook.services.UserService;
+import com.photobook.web.SimpleServer;
+import com.photobook.web.UserServiceServlet;
 
 /**
  * Created by duck on 29/1/17.
  */
 public class Application {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
+        final UserService userService = new UserService();
+        final UserServiceServlet userServiceServlet = new UserServiceServlet(userService);
+        final SimpleServer webServer = new SimpleServer(8080);
+        webServer.registerServlet(userServiceServlet, "/user/*");
 
-        //final User user = new User();
-        //user.setId(123);
-
-
-
-        //System.out.println("hello world " + user.getName());
+        webServer.start();
 
 
         //final String userString = mapper.writeValue(user, User.class);
         // webServer.writeString(user);
         final String s = "{\"id\":\"123\"}";
-
-
-        //System.out.println(s + "  " + s1);
 
     }
 }
